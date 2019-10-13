@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-
 import myStyles from '../../styles';
+import { TouchableOpacity, Text, } from 'react-native';
 
 /**
  * A stateless function component which renders a button.
@@ -10,10 +9,14 @@ import myStyles from '../../styles';
  * @param {obj} props
  */
 const FormButton = (props) => {
-    const { children, onPress } = props;
+    const { children, onPress, disabled } = props;
 
     return (
-        <TouchableOpacity style={myStyles.button} onPress={onPress}>
+        <TouchableOpacity
+            style={[myStyles.button, disabled && myStyles.buttonDisabled]}
+            onPress={onPress}
+            disabled={disabled}
+        >
             <Text style={myStyles.buttonText}>{children}</Text>
         </TouchableOpacity>
     );
@@ -22,10 +25,12 @@ const FormButton = (props) => {
 FormButton.propTypes = {
     onPress: PropTypes.func,
     children: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
 };
 
 FormButton.defaultProps = {
     onPress: f => f,
+    disabled: false,
 };
 
 export default FormButton;

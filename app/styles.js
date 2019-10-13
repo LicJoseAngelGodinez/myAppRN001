@@ -18,8 +18,9 @@ export default StyleSheet.create({
     },
     // FormTextInput
     inputWrapper: {
+        flex: 1,
         marginBottom: 15,
-        flexDirection: 'column',
+        paddingHorizontal: 10,
     },
     textInput: {
         height: 40,
@@ -34,13 +35,13 @@ export default StyleSheet.create({
     label: {
         color: '#FFF',
         marginBottom: 5,
-        fontFamily: 'Oxygen',
     },
     // FormButton
     button: {
         backgroundColor: '#FD6592',
         borderRadius: 3,
-        height: 40,
+        height: 40, 
+        marginHorizontal: 10,
         marginBottom: 15,
         justifyContent: 'center',
         alignItems: 'center',
@@ -49,5 +50,12 @@ export default StyleSheet.create({
         color: '#FFF',
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    buttonDisabled: {
+        opacity: 0.5,
+    },
+    // Form Builder
+    row: {
+        flexDirection: 'row',
     },
   });
