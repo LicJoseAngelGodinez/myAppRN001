@@ -53,6 +53,11 @@ export default class App extends Component {
         // get user's input data from the state.
         const { hourlyRate, hoursPerWeek, daysPerWeek } = state;
 
+        if ( !parseFloat(hourlyRate) || !parseFloat(hoursPerWeek) || !parseFloat(daysPerWeek) ) {
+            Alert.alert('Input error', 'Please input some positive numeric values.');
+            return;
+        }
+
         const weeksPerYear = 52;
         const hoursPerDay = Math.ceil(parseFloat(hoursPerWeek) / parseFloat(daysPerWeek));
         const weeklyIncome = Math.abs(
