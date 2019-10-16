@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    StyleSheet, KeyboardAvoidingView, Text, Alert,
+    KeyboardAvoidingView, Text, Alert,
 } from 'react-native';
 
 import myStyles from './app/styles';
@@ -76,7 +76,7 @@ export default class App extends Component {
 
     render() {
         return (
-            <KeyboardAvoidingView behavior="padding" style={myStyles.container}>
+            <KeyboardAvoidingView style={myStyles.container}>
                 <Text style={myStyles.screenTitle}>Salary Calculator</Text>
                 <FormBuilder
                     formFieldsRows={this.getFormFields()}

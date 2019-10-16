@@ -36,6 +36,9 @@ export default StyleSheet.create({
         color: '#FFF',
         marginBottom: 5,
     },
+    textarea: {
+        height: 80,
+    },
     // FormButton
     button: {
         backgroundColor: '#FD6592',
@@ -57,5 +60,22 @@ export default StyleSheet.create({
     // Form Builder
     row: {
         flexDirection: 'row',
+    },
+    // SignUp
+    safeArea: {
+        flex: 1,
+        backgroundColor: '#3F4EA5',
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        paddingHorizontal: 10,
+        backgroundColor: '#3F4EA5',
+    },
+    screenTitle: {
+        fontSize: 35,
+        textAlign: 'center',
+        margin: 10,
+        color: '#FFF',
     },
   });
