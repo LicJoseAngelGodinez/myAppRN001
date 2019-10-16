@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 
 import FormTextInput from './FormTextInput';
+import FormBooleanInput from './FormBooleanInput';
 import FormButton from './FormButton';
 import myStyles from '../../styles';
 
@@ -21,7 +22,7 @@ class FormBuilder extends React.Component {
         // dynamically construct our initial state by using
         // each form field's name as an object property.
         const formFieldNames = formFields.reduce((obj, field) => {
-            obj[field.name] = '';
+            obj[field.name] = this.getFormFieldDefaultValue(field);
             return obj;
         }, {});
 
@@ -51,12 +52,34 @@ class FormBuilder extends React.Component {
     };
 
     /**
+     * Determine what should be the default value
+     * for a given field.
+     */
+    getFormFieldDefaultValue = ({ defaultValue, type }) => {
+        if (defaultValue !== undefined) {
+            return defaultValue;
+        }
+
+        switch (type) {
+        case 'boolean':
+            return false;
+        default:
+            return '';
+        }
+    };
+
+    /**
      * Check if all fields have been filled out.
      */
     /* eslint-disable react/destructuring-assignment */
     hasValidFormData = () => {
         const formFields = this.getFormFields();
-        const isFilled = formFields.every(field => !!this.state[field.name]);
+        const isFilled = formFields
+            // filter out Boolean fields because they will always have a value
+            .filter(field => field.type !== 'boolean')
+            // check if all remaining fields have been filled out
+            .every(field => !!this.state[field.name]);
+
         return isFilled;
     };
 
@@ -65,7 +88,18 @@ class FormBuilder extends React.Component {
      */
     hasDirtyFormData = () => {
         const formFields = this.getFormFields();
-        const isDirty = formFields.some(field => !!this.state[field.name]);
+        const isDirty = formFields.some((field) => {
+            switch (field.type) {
+            case 'boolean':
+                // because Boolean fields will have a default value,
+                // we need to check if the current value is not the default one
+                return this.state[field.name] !== this.getFormFieldDefaultValue(field);
+
+            default:
+                return !!this.state[field.name];
+            }
+        });
+
         return isDirty;
     };
     /* eslint-enable react/destructuring-assignment */
@@ -106,6 +140,20 @@ class FormBuilder extends React.Component {
     );
     /* eslint-enable react/destructuring-assignment */
 
+    /* eslint-disable react/destructuring-assignment */
+    renderBooleanInput = ({ name, label, inputProps }) => (
+        <FormBooleanInput
+            {...inputProps}
+            value={this.state[name]}
+            onValueChange={(value) => {
+                this.setState({ [name]: value });
+            }}
+            labelText={label}
+            key={name}
+        />
+    );
+    /* eslint-enable react/destructuring-assignment */
+
     render() {
         const { submitBtnTitle, formFieldsRows } = this.props;
 
@@ -114,7 +162,15 @@ class FormBuilder extends React.Component {
                 {/* eslint-disable react/no-array-index-key */}
                 {formFieldsRows.map((formFieldsRow, i) => (
                     <View style={myStyles.row} key={`r-${i}`}>
-                        {formFieldsRow.map(field => this.renderTextInput(field))}
+                        {formFieldsRow.map((field) => {
+                            switch (field.type) {
+                            case 'boolean':
+                                return this.renderBooleanInput(field);
+
+                            default:
+                                return this.renderTextInput(field);
+                            }
+                        })}
                     </View>
                 ))}
                 {/* eslint-enable react/no-array-index-key */}
@@ -143,6 +199,7 @@ FormBuilder.propTypes = {
                 label: PropTypes.string,
                 type: PropTypes.string,
                 inputProps: PropTypes.object,
+                defaultValue: PropTypes.any,
             }),
         ),
     ).isRequired,

@@ -78,4 +78,17 @@ export default StyleSheet.create({
         margin: 10,
         color: '#FFF',
     },
+    //FormBooleanInput
+    switchWrapper: {
+        flex: 1,
+        marginBottom: 15,
+        paddingHorizontal: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    label: {
+        flex: 1,
+        color: '#FFF',
+        marginLeft: 10,
+    },
   });
